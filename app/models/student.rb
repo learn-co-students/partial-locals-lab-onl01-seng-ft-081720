@@ -1,3 +1,4 @@
+require 'pry'
 # == Schema Information
 #
 # Table name: students
@@ -13,4 +14,14 @@
 class Student < ActiveRecord::Base
   has_many :classroom_students
   has_many :classrooms, through: :classroom_students
+
+  def self.search(params)
+    if params == ""
+      self.all
+    else
+      self.where("name like ?", "%#{params}%")
+    end
+  end
+
+
 end
