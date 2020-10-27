@@ -19,9 +19,14 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
   end
-
+  
   def index
-    @students = Student.all
+    params.permit(:query)
+    if params[:query]
+      @students = Student.search(params[:query])
+    else
+      @students = Student.all
+    end
   end
 
   def student_params
