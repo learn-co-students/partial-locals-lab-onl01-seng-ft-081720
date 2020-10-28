@@ -14,16 +14,20 @@ class Student < ActiveRecord::Base
   has_many :classroom_students
   has_many :classrooms, through: :classroom_students
 
-  def search (query)
+  def self.search (query)
+    @students = []
 
     if query == ""
       @students = self.all
 
     elsif query
-      @student = self.find_by(query)
-
+      self.all.collect do |s| 
+        if s.name.downcase.include?(query)
+          @students << s
+        end
+      end
     end
-
+    @students
   end
 
 end
